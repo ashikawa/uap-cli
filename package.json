@@ -4,7 +4,7 @@
   "description": "",
   "main": "ua-parser.js",
   "bin" : {
-    "ua-parseer" : "bin/uapaser"
+    "ua-parser" : "bin/uapaser"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
