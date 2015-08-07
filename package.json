@@ -2,9 +2,9 @@
   "name": "uap-node",
   "version": "1.0.0",
   "description": "",
-  "main": "bin/ua-parser.js",
+  "main": "bin/uap-cli.js",
   "bin" : {
-    "ua-parser" : "bin/uapaser"
+    "uap-cli" : "bin/uap-cli"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

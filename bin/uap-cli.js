@@ -2,14 +2,15 @@
 /*global Promise*/
 'use strict';
 
-var yaml  = require('yamlparser/yamlparser'),
-    fs    = require('fs'),
-    uap   = require('uap-ref-impl/lib/parser'),
-    file  = process.argv[2];
+var fs       = require('fs'),
+    yaml     = require('yamlparser/yamlparser'),
+    uap      = require('uap-ref-impl/lib/parser'),
+    readLine = require('readline'),
+    file     = process.argv[2];
 
 if (!file) {
     console.log('regexes.yaml not found');
-    console.log('usage: uapaser path/to/regexes.yaml');
+    console.log('usage: uap-cli path/to/regexes.yaml');
     process.exit(1);
 }
 
@@ -24,6 +25,18 @@ function fileReadPromise(file) {
     });
 }
 
+function createInterface() {
+    var interFace = readLine.createInterface({
+        input:  process.stdin,
+        output: process.stdout
+    });
+
+    interFace.setPrompt('> ');
+    interFace.prompt();
+
+    return interFace;
+}
+
 var parseUapPromise = fileReadPromise(file).catch(function (error) {
     console.error("error: cannot read regexes.yaml", error);
     process.exit(1);
@@ -36,19 +49,21 @@ parseUapPromise.catch(function (error) {
     console.error("error: regexes.yaml cannot parse", error);
     process.exit(1);
 }).then(function (uap) {
+    var userAgent,
+        interFace;
+
     if (process.argv[3]) {
-        var input = process.argv[3];
-        console.log(uap.parse(input));
-        return process.exit(0);
+        userAgent = process.argv[3];
+        console.log(uap.parse(userAgent));
+        process.exit(0);
     }
 
-    require('readline').createInterface({
-        input:  process.stdin,
-        output: process.stdout
-    }).on('line', function (line) {
-        if (line === '') {
-            return;
+    interFace = createInterface();
+
+    interFace.on('line', function (line) {
+        if (line.trim() !== '') {
+            console.log(uap.parse(line));
         }
-        console.log(uap.parse(line));
+        interFace.prompt();
     });
 });

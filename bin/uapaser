@@ -1,3 +1,0 @@
-#!/bin/sh
-basedir=`dirname "$0"`
-node "$basedir/../lib/node_modules/uap-node/bin/ua-parser.js" "$@"
