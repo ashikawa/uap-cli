@@ -24,9 +24,17 @@ function fileReadPromise(file) {
     });
 }
 
-fileReadPromise(file).then(function (data) {
+var parseUapPromise = fileReadPromise(file).catch(function (error) {
+    console.error("error: cannot read regexes.yaml", error);
+    process.exit(1);
+}).then(function (data) {
     var dataYaml = yaml.eval(data);
     return uap(dataYaml);
+});
+
+parseUapPromise.catch(function (error) {
+    console.error("error: regexes.yaml cannot parse", error);
+    process.exit(1);
 }).then(function (uap) {
     if (process.argv[3]) {
         var input = process.argv[3];

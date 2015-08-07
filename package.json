@@ -2,7 +2,7 @@
   "name": "uap-node",
   "version": "1.0.0",
   "description": "",
-  "main": "ua-parser.js",
+  "main": "bin/ua-parser.js",
   "bin" : {
     "ua-parser" : "bin/uapaser"
   },
